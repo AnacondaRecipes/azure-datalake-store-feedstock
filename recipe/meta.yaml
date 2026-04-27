@@ -1,27 +1,27 @@
 {% set name = "azure-datalake-store" %}
-{% set version = "0.0.51" %}
+{% set version = "1.0.1" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: b871ebb3bcfd292e8a062dbbaacbc132793d98f1b60f549a8c3b672619603fc1
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
+  sha256: 5364d4445aab154a1c7cb10215629c3ce46ce5c7aaaf16071890c03fae53a035
 
 build:
-  noarch: python
   number: 0
-  script: {{ PYTHON }} -m pip install . -vv
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
   host:
-    - python
     - pip
+    - python
+    - wheel
+    - setuptools
   run:
     - python
     - cffi
-    - adal >=0.4.2
     - requests >=2.20.0
 
 test:
@@ -34,7 +34,6 @@ about:
   license_family: MIT
   license_file: License.txt
   summary: This project is the Python filesystem library for Azure Data Lake Store
-
   description: |
     A pure-python interface to the Azure Data-lake Storage system,
     providing pythonic file-system and file objects, seamless transition
